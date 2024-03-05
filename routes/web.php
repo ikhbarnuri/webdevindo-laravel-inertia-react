@@ -30,14 +30,13 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/todo', function () {
-    return Inertia::render('Todo');
-})->middleware(['auth', 'verified'])->name('todo');
-
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('/todo', [\App\Http\Controllers\TodoController::class, 'index'])->name('todo');
+    Route::post('/todo', [\App\Http\Controllers\TodoController::class, 'store'])->name('todo.store');
 });
 
 Route::get('/users', [UserController::class, 'index'])->name('users.index');
